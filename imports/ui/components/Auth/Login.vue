@@ -24,7 +24,9 @@
       ></v-text-field>
 
       <div class="d-flex justify-end">
-        <v-btn color="primary" text small>¿Olvidaste tu contraseña?</v-btn>
+        <v-btn color="primary" text small :to="{ name: 'forgotPassword' }"
+          >¿Olvidaste tu contraseña?</v-btn
+        >
       </div>
 
       <div class="d-flex justify-start">
