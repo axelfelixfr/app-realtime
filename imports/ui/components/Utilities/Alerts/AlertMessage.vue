@@ -1,6 +1,7 @@
 <template>
   <v-snackbar
     v-model="snackbar"
+    class="v-snack__content"
     :bottom="y === 'bottom'"
     :right="x === 'right'"
     :top="y === 'top'"
@@ -8,6 +9,7 @@
     :color="color"
     :multi-line="mode === 'multi-line'"
     :vertical="mode === 'vertical'"
+    :timeout="timeout"
   >
     <v-card color="transparent" elevation="0">
       <v-card-title>
@@ -42,29 +44,64 @@ export default {
       mode: "",
       icon: null,
       title: "",
-      text: ""
+      text: "",
+      timeout: 6000
     };
   },
   methods: {
+    /**
+     * Configuración principal de la alerta
+     * @param color 'Color de la alerta': success, error, info, primary, warning
+     * @param title 'Título de la alerta'
+     */
     showAlertSimple(color, title) {
       this.color = color;
       this.title = title;
       this.x = "right";
       this.y = "bottom";
       if (color === "success") {
-        this.icon = "mdi-check-bold";
+        this.icon = "mdi-check-outline";
       } else if (color === "error") {
-        this.icon = "close";
+        this.icon = "mdi-close-octagon-outline";
       } else if (color === "info") {
-        this.icon = "info";
+        this.icon = "mdi-information-outline";
       } else if (color === "warning") {
-        this.icon = "warning";
+        this.icon = "mdi-alert-outline";
       }
       this.text = "";
       this.mode = "";
       this.timeout = 6000;
       this.snackbar = true;
+    },
+    /**
+     * Configuración avanzada de la alerta
+     * @param icon 'Icono de la alerta'
+     * @param color 'Color de la alerta': success, info, warning, error
+     * @param title 'Título de la alerta'
+     * @param mode 'Modo de la alerta': vertical, multi-line (por defecto)
+     * @param timeout 'Tiempo de duración': 0 es indefinido
+     * @param x 'Posición en x de la alerta': left, right o string vacío para center
+     * @param y 'Posición en y de la alerta': top, bottom
+     * @param text 'Contenido de la alerta'
+     *
+     */
+    showAlertFull(icon, color, title, mode, timeout, x, y, text = null) {
+      this.icon = icon;
+      this.color = color;
+      this.title = title;
+      this.mode = mode;
+      this.timeout = timeout;
+      this.x = x;
+      this.y = y;
+      this.text = text;
+      this.snackbar = true;
     }
   }
 };
 </script>
+
+<style>
+.v-snack__content {
+  padding: 0 !important;
+}
+</style>
