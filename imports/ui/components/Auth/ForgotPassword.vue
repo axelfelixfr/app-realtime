@@ -1,5 +1,5 @@
 <template>
-  <div class="my-auto">
+  <div>
     <div class="d-flex flex-row justify-start">
       <v-btn color="primary" icon :to="{ name: 'login' }">
         <v-icon>arrow_back</v-icon>

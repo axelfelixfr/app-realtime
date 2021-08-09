@@ -15,7 +15,9 @@
         />
       </div>
       <!-- RouterView -->
-      <router-view name="sectionView"></router-view>
+      <div class="my-auto">
+        <router-view name="sectionView"></router-view>
+      </div>
     </v-col>
     <v-col
       xs="12"
