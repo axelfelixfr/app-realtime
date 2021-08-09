@@ -1,8 +1,18 @@
-import AuthLayout from "../layouts/AuthLayout.vue";
+import AuthView from "../views/AuthView.vue";
+import Login from "../components/Auth/Login.vue";
 
 export default {
-  path: "/auth",
+  path: "/login",
   components: {
-    allPageView: AuthLayout
-  }
+    allPageView: AuthView
+  },
+  children: [
+    {
+      path: "",
+      name: "login",
+      components: {
+        sectionView: Login
+      }
+    }
+  ]
 };
