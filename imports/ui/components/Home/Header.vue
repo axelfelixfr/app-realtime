@@ -1,13 +1,5 @@
 <template>
-  <v-app-bar
-    app
-    dark
-    dense
-    shrink-on-scroll
-    prominent
-    fade-img-on-scroll
-    src="./img/background-home.jpg"
-  >
+  <v-app-bar app dark dense src="./img/background-home.jpg">
     <v-toolbar-title>Scaffold Meteor + Vue</v-toolbar-title>
     <v-spacer></v-spacer>
     <UserLogged />
@@ -16,6 +8,7 @@
         <v-tab
           v-for="option in options"
           :key="option.index"
+          :to="{ name: option.namePath }"
           v-text="option.title"
         ></v-tab>
       </v-tabs>
@@ -24,7 +17,7 @@
 </template>
 
 <script>
-import UserLogged from "../Utilities/UserLogged/UserLogged.vue";
+import UserLogged from "./UserLogged.vue";
 
 export default {
   name: "Header",
@@ -38,7 +31,8 @@ export default {
         {
           index: 0,
           icon: "home",
-          title: "Inicio"
+          title: "Inicio",
+          namePath: "main"
         },
         {
           index: 1,

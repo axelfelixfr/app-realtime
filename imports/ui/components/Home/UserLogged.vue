@@ -7,7 +7,7 @@
       </v-btn>
     </template>
     <v-list>
-      <v-list-item href="#">Cuenta</v-list-item>
+      <v-list-item :to="{ name: 'account' }">Cuenta</v-list-item>
       <v-list-item href="#">Cerrar sesión</v-list-item>
     </v-list>
   </v-menu>
