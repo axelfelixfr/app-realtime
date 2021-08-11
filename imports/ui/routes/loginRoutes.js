@@ -1,8 +1,9 @@
-import AuthView from "../views/AuthView.vue";
-import Login from "../components/Auth/Login.vue";
-import ForgotPassword from "../components/Auth/ForgotPassword.vue";
-import ResetPassword from "../components/Auth/ResetPassword";
-import SetInitialPassword from "../components/Auth/SetInitialPassword";
+const AuthView = () => import("../views/AuthView.vue");
+const Login = () => import("../components/Auth/Login.vue");
+const ForgotPassword = () => import("../components/Auth/ForgotPassword.vue");
+const ResetPassword = () => import("../components/Auth/ResetPassword.vue");
+const SetInitialPassword = () =>
+  import("../components/Auth/SetInitialPassword.vue");
 
 export default {
   path: "/login",

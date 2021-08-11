@@ -22,15 +22,15 @@ export default new Vuetify({
         success: colors.green,
         warning: colors.amber.darken1
       }
-    },
-    icons: {
-      iconfont: "mdi"
-    },
-    lang: {
-      locales: {
-        es
-      },
-      current: "es"
     }
+  },
+  icons: {
+    iconfont: "mdi"
+  },
+  lang: {
+    locales: {
+      es
+    },
+    current: "es"
   }
 });

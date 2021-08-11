@@ -1,7 +1,9 @@
 import loginRoutes from "./loginRoutes";
-import HomeView from "../views/HomeView.vue";
-import Main from "../components/Home/Main.vue";
-import ConfigureAccount from "../components/Account/ConfigureAccount.vue";
+import usersRoutes from "./usersRoutes";
+const HomeView = () => import("../views/HomeView.vue");
+const Main = () => import("../components/Home/Main.vue");
+const ConfigureAccount = () =>
+  import("../components/Account/ConfigureAccount.vue");
 
 export default [
   {
@@ -28,7 +30,8 @@ export default [
         components: {
           sectionView: ConfigureAccount
         }
-      }
+      },
+      usersRoutes
     ]
   }
 ];

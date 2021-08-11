@@ -37,7 +37,8 @@ export default {
         {
           index: 1,
           icon: "person",
-          title: "Usuarios"
+          title: "Usuarios",
+          namePath: "users"
         },
         {
           index: 2,
