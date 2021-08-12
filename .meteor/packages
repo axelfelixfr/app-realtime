@@ -24,3 +24,5 @@ static-html
 akryum:vue-component
 akryum:vue
 akryum:vue-sass
+mdg:validated-method
+check
