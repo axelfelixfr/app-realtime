@@ -1,9 +1,27 @@
-import ProfilesView from "../views/ProfilesView.vue";
-
+import ListProfilesView from "../views/ListProfilesView.vue";
+import SaveProfile from "../views/SaveProfile.vue";
 export default {
-  name: "profiles",
   path: "perfiles",
   components: {
-    sectionView: ProfilesView
-  }
+    sectionView: {
+      render: c => c("router-view")
+    }
+  },
+  children: [
+    {
+      name: "profiles",
+      path: "",
+      component: ListProfilesView
+    },
+    {
+      name: "createProfile",
+      path: "crear",
+      component: SaveProfile
+    },
+    {
+      name: "editProfile",
+      path: "editar",
+      component: SaveProfile
+    }
+  ]
 };

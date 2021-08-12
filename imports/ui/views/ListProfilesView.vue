@@ -2,16 +2,38 @@
   <v-container>
     <v-row justify="center">
       <v-col xs="12" sm="8" md="6" lg="5" xl="5">
+        <div class="d-flex flex-row-reverse mb-5">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                color="success"
+                v-on="on"
+                fab
+                dark
+                :to="{ name: 'createProfile' }"
+              >
+                <v-icon>add</v-icon>
+              </v-btn>
+            </template>
+            <span>Agregar perfil</span>
+          </v-tooltip>
+        </div>
         <v-data-table
           :headers="headers"
           :items="profiles"
           sort-by="name"
           class="elevation-1"
         >
-          <template v-slot:[`item.action`]="{ item }">
+          <template v-slot:[`item.action`]>
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-icon color="info" v-on="on" small class="mr-2">
+                <v-icon
+                  color="info"
+                  v-on="on"
+                  small
+                  class="mr-2"
+                  @click="openEditProfile"
+                >
                   edit
                 </v-icon>
               </template>
@@ -20,7 +42,13 @@
 
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-icon color="error" v-on="on" small class="mr-2">
+                <v-icon
+                  color="error"
+                  v-on="on"
+                  small
+                  class="mr-2"
+                  @click="openDeleteProfile"
+                >
                   delete
                 </v-icon>
               </template>
@@ -35,7 +63,7 @@
 
 <script>
 export default {
-  name: "ProfilesView",
+  name: "ListProfilesView",
   data() {
     return {
       headers: [
@@ -46,15 +74,22 @@ export default {
         {
           _id: 1,
           name: "admin",
-          username: "Administrador"
+          description: "Administrador"
         },
         {
           _id: 2,
           name: "chat",
-          username: "Usuario chat"
+          description: "Usuario chat"
         }
       ]
     };
+  },
+  methods: {
+    openEditProfile(profile) {
+      // Editar usuario
+      console.log(profile);
+      this.$router.push({ name: "editProfile" });
+    }
   }
 };
 </script>
