@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import GeneralData from "./GeneralData.vue";
-import UpdatePassword from "./UpdatePassword.vue";
+import GeneralData from "../components/Account/GeneralData.vue";
+import UpdatePassword from "../components/Account/UpdatePassword.vue";
 export default {
   name: "ConfigureAccount",
   components: {

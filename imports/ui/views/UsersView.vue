@@ -2,38 +2,57 @@
   <v-container>
     <v-row justify="center">
       <v-col xs="12" sm="12" md="10" lg="8" xl="5">
-        <v-data-table
-          :headers="headers"
-          :items="users"
-          sort-by="name"
-          class="elevation-1"
-        >
-          <template v-slot:[`body.append`]="{ isMobile }">
-            <tr v-if="!isMobile">
-              <td>
-                <v-text-field
-                  v-model="headersFilter.name"
-                  type="text"
-                  label="Nombre"
-                ></v-text-field>
-              </td>
-              <td>
-                <v-text-field
-                  v-model="headersFilter.username"
-                  type="text"
-                  label="Usuario"
-                ></v-text-field>
-              </td>
-              <td>
-                <v-text-field
-                  v-model="headersFilter.email"
-                  type="email"
-                  label="Correo"
-                ></v-text-field>
-              </td>
-            </tr>
-          </template>
-        </v-data-table>
+        <div v-if="activeMainView">
+          <div class="d-flex flex-row-reverse mb-5">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  color="success"
+                  v-on="on"
+                  fab
+                  dark
+                  :to="{ name: 'createUser' }"
+                >
+                  <v-icon>add</v-icon>
+                </v-btn>
+              </template>
+              <span>Agregar usuario</span>
+            </v-tooltip>
+          </div>
+          <v-data-table
+            :headers="headers"
+            :items="users"
+            sort-by="name"
+            class="elevation-1"
+          >
+            <template v-slot:[`body.append`]="{ isMobile }">
+              <tr v-if="!isMobile">
+                <td>
+                  <v-text-field
+                    v-model="headersFilter.name"
+                    type="text"
+                    label="Nombre"
+                  ></v-text-field>
+                </td>
+                <td>
+                  <v-text-field
+                    v-model="headersFilter.username"
+                    type="text"
+                    label="Usuario"
+                  ></v-text-field>
+                </td>
+                <td>
+                  <v-text-field
+                    v-model="headersFilter.email"
+                    type="email"
+                    label="Correo"
+                  ></v-text-field>
+                </td>
+              </tr>
+            </template>
+          </v-data-table>
+        </div>
+        <router-view name="usersOptionsView"></router-view>
       </v-col>
     </v-row>
   </v-container>
@@ -41,7 +60,7 @@
 
 <script>
 export default {
-  name: "Users",
+  name: "UsersView",
   data() {
     return {
       headersFilter: {
@@ -65,8 +84,17 @@ export default {
           username: "Capitan america",
           email: "capi@correo.com"
         }
-      ]
+      ],
+      activeMainView: true
     };
+  },
+  watch: {
+    $route() {
+      this.updateMainView();
+    }
+  },
+  mounted() {
+    this.updateMainView();
   },
   computed: {
     headers() {
@@ -119,9 +147,12 @@ export default {
         }
       ];
     }
+  },
+  methods: {
+    updateMainView() {
+      const currentRoute = this.$router.currentRoute.name;
+      this.activeMainView = currentRoute === "users";
+    }
   }
 };
 </script>
-
-<style>
-</style>

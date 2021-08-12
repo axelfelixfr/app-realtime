@@ -2,8 +2,7 @@ import loginRoutes from "./loginRoutes";
 import usersRoutes from "./usersRoutes";
 const HomeView = () => import("../views/HomeView.vue");
 const Main = () => import("../components/Home/Main.vue");
-const ConfigureAccount = () =>
-  import("../components/Account/ConfigureAccount.vue");
+const ConfigureAccountView = () => import("../views/ConfigureAccountView.vue");
 
 export default [
   {
@@ -28,7 +27,7 @@ export default [
         name: "account",
         path: "account",
         components: {
-          sectionView: ConfigureAccount
+          sectionView: ConfigureAccountView
         }
       },
       usersRoutes
