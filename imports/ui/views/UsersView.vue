@@ -25,6 +25,22 @@
             sort-by="name"
             class="elevation-1"
           >
+            <template v-slot:[`item.action`]="{ item }">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-icon
+                    color="info"
+                    v-on="on"
+                    small
+                    class="mr-2"
+                    @click="openEditUser(item)"
+                  >
+                    edit
+                  </v-icon>
+                </template>
+                <span>Editar</span>
+              </v-tooltip>
+            </template>
             <template v-slot:[`body.append`]="{ isMobile }">
               <tr v-if="!isMobile">
                 <td>
@@ -144,6 +160,11 @@ export default {
                 .indexOf(this.headersFilter.email.toLocaleLowerCase()) !== -1
             );
           }
+        },
+        {
+          value: "action",
+          text: "Opciones",
+          sortable: false
         }
       ];
     }
@@ -152,6 +173,11 @@ export default {
     updateMainView() {
       const currentRoute = this.$router.currentRoute.name;
       this.activeMainView = currentRoute === "users";
+    },
+    openEditUser(user) {
+      // Editar usuario
+      console.log(user);
+      this.$router.push({ name: "editUser" });
     }
   }
 };

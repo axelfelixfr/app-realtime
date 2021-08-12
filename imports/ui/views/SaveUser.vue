@@ -2,11 +2,17 @@
   <v-container>
     <v-row>
       <v-col>
-        <div class="headline">Crear usuario</div>
+        <div class="headline">{{ dataView.title }}</div>
       </v-col>
       <v-col cols="2">
         <!-- La propiedad "form" es necesario ya que el boton submit esta fuera del formulario, por lo que hace referencia al form "saveUser" -->
-        <v-btn block type="submit" form="saveUser" color="primary">Crear</v-btn>
+        <v-btn
+          block
+          type="submit"
+          form="saveUser"
+          color="primary"
+          v-text="dataView.targetButton"
+        ></v-btn>
       </v-col>
     </v-row>
 
@@ -77,8 +83,21 @@ export default {
       profiles: [
         { name: "admin", description: "Administrador" },
         { name: "chat", description: "Usuario Chat" }
-      ]
+      ],
+      dataView: {
+        title: "",
+        targetButton: ""
+      }
     };
+  },
+  created() {
+    if (this.$router.currentRoute.name.includes("create")) {
+      this.dataView.title = "Crear usuario";
+      this.dataView.targetButton = "Crear";
+    } else if (this.$router.currentRoute.name.includes("edit")) {
+      this.dataView.title = "Editar usuario";
+      this.dataView.targetButton = "Editar";
+    }
   },
   methods: {
     saveUser() {

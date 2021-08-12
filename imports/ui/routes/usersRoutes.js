@@ -13,6 +13,13 @@ export default {
       components: {
         usersOptionsView: SaveUser
       }
+    },
+    {
+      name: "editUser",
+      path: "editar",
+      components: {
+        usersOptionsView: SaveUser
+      }
     }
   ]
 };
