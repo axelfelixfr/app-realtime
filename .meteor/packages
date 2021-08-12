@@ -26,3 +26,5 @@ akryum:vue
 akryum:vue-sass
 mdg:validated-method
 check
+accounts-base
+accounts-password
