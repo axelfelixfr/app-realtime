@@ -1,5 +1,6 @@
 import ListUsersView from "../views/ListUsersView.vue";
 import SaveUser from "../views/SaveUser.vue";
+
 export default {
   path: "usuarios",
   components: {

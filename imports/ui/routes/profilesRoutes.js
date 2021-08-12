@@ -1,5 +1,6 @@
 import ListProfilesView from "../views/ListProfilesView.vue";
 import SaveProfile from "../views/SaveProfile.vue";
+
 export default {
   path: "perfiles",
   components: {

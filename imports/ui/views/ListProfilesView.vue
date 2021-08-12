@@ -42,13 +42,7 @@
 
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-icon
-                  color="error"
-                  v-on="on"
-                  small
-                  class="mr-2"
-                  @click="openDeleteProfile"
-                >
+                <v-icon color="error" v-on="on" small class="mr-2">
                   delete
                 </v-icon>
               </template>

@@ -37,19 +37,89 @@
                 v-model="profile.description"
                 id="inputDescription"
                 name="description"
-                label="Descripci´ón del perfil"
+                label="Descripción del perfil"
               ></v-text-field>
             </v-col>
           </v-row>
         </v-form>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title>Permisos de este perfil</v-card-title>
+          <v-card-text>
+            <v-text-field
+              v-model="searchSelfPermission"
+              placeholder="Buscar..."
+              id="inputSearchSelfPermission"
+              name="profileName"
+            ></v-text-field>
+          </v-card-text>
+          <!-- v-sheet para la parte responsive, al colocarle un scroll-bar -->
+          <v-sheet
+            id="scrolling-techniques-2"
+            class="overflow-y-auto"
+            max-height="500"
+          >
+            <v-list style="height: 400px">
+              <v-list-item-group>
+                <draggable :list="selfPermissions" group="permissions">
+                  <v-list-item
+                    v-for="permission in filteredSelfPermissions"
+                    :key="permission._id"
+                    v-text="permission._id"
+                  >
+                  </v-list-item>
+                </draggable>
+              </v-list-item-group>
+            </v-list>
+          </v-sheet>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card>
+          <v-card-title>Todos los permisos</v-card-title>
+          <v-card-text>
+            <v-text-field
+              v-model="searchPermission"
+              placeholder="Buscar..."
+              id="inputSearchPermission"
+              name="profileName2"
+            ></v-text-field>
+          </v-card-text>
+          <!-- v-sheet para la parte responsive, al colocarle un scroll-bar -->
+          <v-sheet
+            id="scrolling-techniques-3"
+            class="overflow-y-auto"
+            max-height="500"
+          >
+            <v-list style="height: 400px">
+              <v-list-item-group>
+                <draggable :list="allPermissions" group="permissions">
+                  <v-list-item
+                    v-for="permission in filteredPermissions"
+                    :key="permission._id"
+                    v-text="permission._id"
+                  >
+                  </v-list-item>
+                </draggable>
+              </v-list-item-group>
+            </v-list>
+          </v-sheet>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
+import draggable from "vuedraggable";
 export default {
   name: "SaveProfile",
+  components: {
+    draggable
+  },
   data() {
     return {
       profile: {
@@ -61,14 +131,23 @@ export default {
       dataView: {
         title: "",
         targetButton: ""
-      }
+      },
+      searchSelfPermission: "",
+      searchPermission: "",
+      selfPermissions: [],
+      allPermissions: [
+        { _id: "users-view" },
+        { _id: "users-create" },
+        { _id: "users-edit" },
+        { _id: "users-delete" }
+      ]
     };
   },
   created() {
-    if (this.$router.currentRoute.profile.includes("create")) {
+    if (this.$router.currentRoute.name.includes("create")) {
       this.dataView.title = "Crear perfil";
       this.dataView.targetButton = "Crear";
-    } else if (this.$router.currentRoute.profile.includes("edit")) {
+    } else if (this.$router.currentRoute.name.includes("edit")) {
       this.dataView.title = "Editar perfil";
       this.dataView.targetButton = "Editar";
     }
@@ -76,6 +155,22 @@ export default {
   methods: {
     saveProfile() {
       console.log(this.profile);
+    }
+  },
+  computed: {
+    filteredSelfPermissions() {
+      return this.selfPermissions.filter(permission => {
+        return permission._id
+          .toLowerCase()
+          .includes(this.searchSelfPermission.toLowerCase());
+      });
+    },
+    filteredPermissions() {
+      return this.allPermissions.filter(permission => {
+        return permission._id
+          .toLowerCase()
+          .includes(this.searchPermission.toLowerCase());
+      });
     }
   }
 };

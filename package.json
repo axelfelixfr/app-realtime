@@ -14,6 +14,7 @@
     "vue": "^2.6.12",
     "vue-meteor-tracker": "^2.0.0-beta.5",
     "vue-router": "^3.5.2",
+    "vuedraggable": "^2.24.3",
     "vuetify": "^2.5.0",
     "yarn": "^1.22.10"
   },
