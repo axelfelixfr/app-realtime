@@ -42,7 +42,7 @@
 
 <script>
 export default {
-  name: "General Data",
+  name: "GeneralData",
   data() {
     return {
       user: {

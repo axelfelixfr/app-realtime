@@ -66,7 +66,7 @@ export default {
         option => option.namePath == this.$route.name
       );
       this.optionSelected = selectedOption
-        ? this.option.indexOf(selectedOption)
+        ? this.options.indexOf(selectedOption)
         : this.optionSelected;
     }
   }
