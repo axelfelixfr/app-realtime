@@ -40,6 +40,21 @@
                 </template>
                 <span>Editar</span>
               </v-tooltip>
+
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-icon
+                    color="error"
+                    v-on="on"
+                    small
+                    class="mr-2"
+                    @click="openRemoveModal(item)"
+                  >
+                    delete
+                  </v-icon>
+                </template>
+                <span>Eliminar</span>
+              </v-tooltip>
             </template>
             <template v-slot:[`body.append`]="{ isMobile }">
               <tr v-if="!isMobile">
@@ -67,6 +82,11 @@
               </tr>
             </template>
           </v-data-table>
+          <ModalRemove
+            ref="refModalRemove"
+            v-bind:modalData="userTemp"
+            @id_element="deleteUser"
+          />
         </div>
         <router-view name="usersOptionsView"></router-view>
       </v-col>
@@ -75,8 +95,12 @@
 </template>
 
 <script>
+import ModalRemove from "../components/Utilities/Modals/ModalRemove.vue";
 export default {
   name: "UsersView",
+  components: {
+    ModalRemove
+  },
   data() {
     return {
       headersFilter: {
@@ -86,22 +110,32 @@ export default {
       },
       users: [
         {
+          _id: 1,
           name: "Peter parker",
           username: "Spider-man",
           email: "spidy@correo.com"
         },
         {
+          _id: 2,
           name: "Tony Stark",
           username: "iron-man",
           email: "ironman@correo.com"
         },
         {
+          _id: 3,
           name: "Steve Rogers",
           username: "Capitan america",
           email: "capi@correo.com"
         }
       ],
-      activeMainView: true
+      activeMainView: true,
+      userTemp: {
+        preposition: "al",
+        typeElement: "usuario",
+        mainNameElement: "",
+        _id: null,
+        element: {}
+      }
     };
   },
   watch: {
@@ -178,6 +212,16 @@ export default {
       // Editar usuario
       console.log(user);
       this.$router.push({ name: "editUser" });
+    },
+    openRemoveModal(user) {
+      console.log("Usuario", user);
+      this.userTemp.element = user;
+      this.userTemp._id = user._id;
+      this.userTemp.mainNameElement = user.name;
+      this.$refs.refModalRemove.dialog = true;
+    },
+    deleteUser(idUser) {
+      console.log("Usuario a eliminar :", idUser);
     }
   }
 };
