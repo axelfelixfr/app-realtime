@@ -1,14 +1,14 @@
 <template>
   <v-app>
     <router-view name="allPageView"></router-view>
+    <AlertMessage />
+    <Loader />
     <!-- <v-container>
       <h1>Hola mundo</h1>
       <v-btn color="primary" @click="openAlert">Abrir alerta</v-btn>
       <v-btn color="success" @click="openLoader">Loader</v-btn>
       <v-btn color="error" @click="openModalRemove">Modal</v-btn>
     </v-container>
-    <AlertMessage ref="refAlertMessageTest" />
-    <Loader ref="refLoaderTest" />
     <ModalRemove
       ref="refModalRemove"
       v-bind:modalData="userTemp"
@@ -18,17 +18,16 @@
 </template>
 
 <script>
-// import AlertMessage from "./components/Utilities/Alerts/AlertMessage.vue";
-// import Loader from "./components/Utilities/Loaders/Loader.vue";
+import AlertMessage from "./components/Utilities/Alerts/AlertMessage.vue";
+import Loader from "./components/Utilities/Loaders/Loader.vue";
 // import ModalRemove from "./components/Utilities/Modals/ModalRemove.vue";
 export default {
-  name: "App"
-  /*
+  name: "App",
   components: {
     AlertMessage,
-    Loader,
-    ModalRemove
-  },
+    Loader
+  }
+  /*
   
   data() {
     return {

@@ -46,7 +46,6 @@ export default {
 .right-side {
   background-image: url("./img/meteor.jpg");
   background-size: cover;
-  color: var(--body-color);
   height: 100vh;
   position: relative;
 }

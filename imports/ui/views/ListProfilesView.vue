@@ -24,7 +24,7 @@
           sort-by="name"
           class="elevation-1"
         >
-          <template v-slot:[`item.action`]>
+          <template v-slot:[`item.action`]="{ item }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
                 <v-icon
@@ -32,7 +32,7 @@
                   v-on="on"
                   small
                   class="mr-2"
-                  @click="openEditProfile"
+                  @click="openEditProfile(item)"
                 >
                   edit
                 </v-icon>
@@ -42,7 +42,13 @@
 
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-icon color="error" v-on="on" small class="mr-2">
+                <v-icon
+                  color="error"
+                  v-on="on"
+                  small
+                  class="mr-2"
+                  @click="openRemoveModal(item)"
+                >
                   delete
                 </v-icon>
               </template>
@@ -50,14 +56,24 @@
             </v-tooltip>
           </template>
         </v-data-table>
+        <ModalRemove
+          ref="refModalRemove"
+          v-bind:modalData="profileTemp"
+          @id_element="deleteProfile"
+        />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import ModalRemove from "../components/Utilities/Modals/ModalRemove.vue";
+
 export default {
   name: "ListProfilesView",
+  components: {
+    ModalRemove
+  },
   data() {
     return {
       headers: [
@@ -75,14 +91,31 @@ export default {
           name: "chat",
           description: "Usuario chat"
         }
-      ]
+      ],
+      profileTemp: {
+        preposition: "el",
+        typeElement: "perfil",
+        mainNameElement: "",
+        _id: null,
+        element: {}
+      }
     };
   },
   methods: {
     openEditProfile(profile) {
-      // Editar usuario
+      // Editar perfil
       console.log(profile);
       this.$router.push({ name: "editProfile" });
+    },
+    openRemoveModal(profile) {
+      console.log("Perfil", profile);
+      this.profileTemp.element = profile;
+      this.profileTemp._id = profile._id;
+      this.profileTemp.mainNameElement = profile.description;
+      this.$refs.refModalRemove.dialog = true;
+    },
+    deleteProfile(idProfile) {
+      console.log("Perfil a eliminar :", idProfile);
     }
   }
 };

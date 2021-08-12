@@ -48,6 +48,11 @@ export default {
       timeout: 6000
     };
   },
+  mounted() {
+    // Le agregamos al prototype de Vue, la variable $alert que contendra todo el componente (con this)
+    // De esta forma se puede llamar de forma global
+    Vue.prototype.$alert = this;
+  },
   methods: {
     /**
      * Configuración principal de la alerta

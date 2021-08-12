@@ -8,7 +8,7 @@
         <v-tab
           v-for="option in options"
           :key="option.index"
-          :to="{ name: option.namePath }"
+          @click="goToView(option)"
           v-text="option.title"
         ></v-tab>
       </v-tabs>
@@ -48,6 +48,27 @@ export default {
         }
       ]
     };
+  },
+  watch: {
+    $route() {
+      this.updateSelectedOption();
+    }
+  },
+  created() {
+    this.updateSelectedOption();
+  },
+  methods: {
+    goToView(option) {
+      this.$router.push({ name: option.namePath });
+    },
+    updateSelectedOption() {
+      const selectedOption = this.options.find(
+        option => option.namePath == this.$route.name
+      );
+      this.optionSelected = selectedOption
+        ? this.option.indexOf(selectedOption)
+        : this.optionSelected;
+    }
   }
 };
 </script>

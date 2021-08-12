@@ -35,17 +35,12 @@
         >
       </div>
     </v-form>
-    <AlertMessage ref="refAlertLogin" />
   </div>
 </template>
 
 <script>
-import AlertMessage from "../Utilities/Alerts/AlertMessage.vue";
 export default {
   name: "Login",
-  components: {
-    AlertMessage
-  },
   data() {
     return {
       user: {
@@ -57,6 +52,11 @@ export default {
   methods: {
     login() {
       console.log(this.user);
+      this.$loader.activate();
+      setTimeout(() => {
+        this.$loader.desactivate();
+        this.$alert.showAlertSimple("error", "credenciales incorrectas");
+      }, 2000);
     }
   }
 };

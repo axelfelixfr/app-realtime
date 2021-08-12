@@ -19,6 +19,11 @@ export default {
       progressLabel: ""
     };
   },
+  mounted() {
+    // Le agregamos al prototype de Vue, la variable $loader que contendra todo el componente (con this)
+    // De esta forma se puede llamar de forma global
+    Vue.prototype.$loader = this;
+  },
   methods: {
     activate(progressLabel = "Cargando...") {
       this.loader = true;
