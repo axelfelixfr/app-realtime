@@ -43,7 +43,8 @@ export default {
         {
           index: 2,
           icon: "user-tag",
-          title: "Perfiles"
+          title: "Perfiles",
+          namePath: "profiles"
         }
       ]
     };

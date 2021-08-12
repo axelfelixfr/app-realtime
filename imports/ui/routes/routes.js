@@ -1,4 +1,5 @@
 import loginRoutes from "./loginRoutes";
+import profilesRoutes from "./profilesRoutes";
 import usersRoutes from "./usersRoutes";
 const HomeView = () => import("../views/HomeView.vue");
 const Main = () => import("../components/Home/Main.vue");
@@ -30,7 +31,8 @@ export default [
           sectionView: ConfigureAccountView
         }
       },
-      usersRoutes
+      usersRoutes,
+      profilesRoutes
     ]
   }
 ];
