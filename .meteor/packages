@@ -28,3 +28,4 @@ mdg:validated-method
 check
 accounts-base
 accounts-password
+peerlibrary:middleware
