@@ -1,6 +1,5 @@
 import { ValidatedMethod } from "meteor/mdg:validated-method";
 import { check, Match } from "meteor/check";
-import { Accounts } from "meteor/accounts-base";
 import { ResponseMessage } from "../../startup/server/utilities/ResponseMessage";
 import UsersServices from "./UsersServices";
 

@@ -29,3 +29,4 @@ check
 accounts-base
 accounts-password
 peerlibrary:middleware
+alanning:roles

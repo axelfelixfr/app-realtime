@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor run",
-    "run:mongo": "SET MONGO_URL=mongodb://localhost:27017/app-meteor& meteor",
+    "run:mongo": "SET MONGO_URL=mongodb://localhost:27017/app-meteor& meteor --settings ./settings/settings-development.json",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer"
