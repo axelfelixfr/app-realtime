@@ -3,6 +3,9 @@ import Permissions, {
   permissionsArray
 } from "../../startup/server/helpers/Permissions";
 
+// Se crea un índice de la propiedad 'name'
+Profile.rawCollection().createIndex({ name: 1 }, { unique: true });
+
 // Creamos el perfil admin que sera el único perfil estático
 export const StaticProfiles = {
   admin: {

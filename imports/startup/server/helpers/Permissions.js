@@ -5,9 +5,15 @@ import { Meteor } from "meteor/meteor";
 const Permissions = {
   USERS: {
     LIST: { VALUE: "users-view", TEXT: "Listar usuarios" },
-    CREATE: { VALUE: "users-create", TEXT: "Crear usuarios" },
-    UPDATE: { VALUE: "users-edit", TEXT: "Actualizar usuarios" },
-    DELETE: { VALUE: "users-delete", TEXT: "Eliminar usuarios" }
+    CREATE: { VALUE: "users-create", TEXT: "Crear usuario" },
+    UPDATE: { VALUE: "users-edit", TEXT: "Actualizar usuario" },
+    DELETE: { VALUE: "users-delete", TEXT: "Eliminar usuario" }
+  },
+  PROFILES: {
+    LIST: { VALUE: "profiles-view", TEXT: "Listar perfiles" },
+    CREATE: { VALUE: "profiles-create", TEXT: "Crear perfile" },
+    UPDATE: { VALUE: "profiles-edit", TEXT: "Actualizar perfile" },
+    DELETE: { VALUE: "profiles-delete", TEXT: "Eliminar perfile" }
   }
 };
 
