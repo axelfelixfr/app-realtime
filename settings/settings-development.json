@@ -1,6 +1,6 @@
 {
   "private": {
-    "REFRESH_PERMISSIONS": true,
-    "REFRESH_STATIC_PROFILES": true
+    "REFRESH_PERMISSIONS": false,
+    "REFRESH_STATIC_PROFILES": false
   }
 }

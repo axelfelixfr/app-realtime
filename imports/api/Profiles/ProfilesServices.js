@@ -23,21 +23,33 @@ export default {
       throw new Meteor.Error("403", "El nombre de perfil ya existe");
     }
   },
+  // Método para obtener los usuarios con un perfil específico a través de su id
   getUsersByProfile(idProfile) {
+    // Primero se busca el nombre del perfil a través de su id
     const { name } = Profile.findOne(idProfile);
+    // Ahora retornamos a los usuarios que tenga ese nombre de perfil en profile.profile
     return Meteor.users.find({ "profile.profile": name }).fetch();
   },
+  // Método para cambiar los roles de los usuarios
   setUserRoles(idUser, profileName) {
+    // Se obtienen los permisos de los profiles a través de su name, y accediendo a permissions (con .permissions)
     const permissions = Profile.findOne({ name: profileName }).permissions;
-    Meteor.roleAssigment.remove({ "user._id": idUser });
+    // Removemos los roles asignados a los usuarios con "user.id"
+    Meteor.roleAssignment.remove({ "user._id": idUser });
+    // Cambiamos los roles de los usuarios, con setUserRoles, pasandole el profileName y los permisos
     Roles.setUserRoles(idUser, permissions, profileName);
   },
+  // Método para actualizar los perfiles de los usuarios
   updateProfileUsers(users, profileName) {
+    // Accedemos a los users
     users.forEach(user => {
+      // Con un forEach cambiamos dichos roles con el método setUserRoles() de arriba
       this.setUserRoles(user._id, profileName);
     });
   },
+  // Obtenemos los profiles static
   getStaticProfilesName() {
+    // Retornamos el nombre de los perfiles estaticos con la función map
     return Object.keys(StaticProfiles).map(staticProfileName => {
       return StaticProfiles[staticProfileName].name;
     });

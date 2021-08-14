@@ -11,9 +11,9 @@ const Permissions = {
   },
   PROFILES: {
     LIST: { VALUE: "profiles-view", TEXT: "Listar perfiles" },
-    CREATE: { VALUE: "profiles-create", TEXT: "Crear perfile" },
-    UPDATE: { VALUE: "profiles-edit", TEXT: "Actualizar perfile" },
-    DELETE: { VALUE: "profiles-delete", TEXT: "Eliminar perfile" }
+    CREATE: { VALUE: "profiles-create", TEXT: "Crear perfil" },
+    UPDATE: { VALUE: "profiles-edit", TEXT: "Actualizar perfil" },
+    DELETE: { VALUE: "profiles-delete", TEXT: "Eliminar perfil" }
   }
 };
 

@@ -1,4 +1,5 @@
 import { Accounts } from "meteor/accounts-base";
+import ProfilesServices from "../Profiles/ProfilesServices";
 
 export default {
   validateEmail(newEmail, idUser) {
@@ -46,11 +47,15 @@ export default {
   },
   createUser(username, emails, profile) {
     // username, email y name (de profile) deben ser únicos, ya que de esta forma lo pide Accounts.createUser()
-    Accounts.createUser({
+    const idUser = Accounts.createUser({
       username,
       email: emails[0].address,
       profile
     });
+    // Al crear el usuario, actualizamos sus roles de acuerdo a su perfil
+    if (idUser) {
+      ProfilesServices.setUserRoles(idUser, profile.profile);
+    }
   },
   updateUser(_id, username, emails, profile) {
     // Desestructuramos el objeto que nos trae users.findOne() que se obtiene de la base de datos de Mongo
@@ -89,5 +94,7 @@ export default {
         }
       }
     });
+    // Al crear el usuario, actualizamos sus roles de acuerdo a su perfil
+    ProfilesServices.setUserRoles(_id, profile.profile);
   }
 };
