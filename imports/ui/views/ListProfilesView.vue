@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import ModalRemove from "../components/Utilities/Modals/ModalRemove.vue";
+import ModalRemove from "../components/Utilities/ModalRemove.vue";
 
 export default {
   name: "ListProfilesView",

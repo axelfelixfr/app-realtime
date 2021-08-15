@@ -22,9 +22,14 @@ Accounts.validateLoginAttempt(loginAttempt => {
 });
 
 new ValidatedMethod({
+  // Nombre del metodo/petición
   name: "saveUser",
+  // Mixins para colocar los metodos/hooks por aparte, en este caso los metodos "lacosta:method-hooks"
   mixins: [MethodHooks],
+  // Pedimos que quien haga la petición "saveUser" tenga los siguientes permisos:
   permissions: [Permissions.USERS.CREATE.VALUE, Permissions.USERS.UPDATE.VALUE],
+  // beforeHooks se ejecutara antes de todo el proceso de ejecución de "saveUser"
+  // En este caso checkPermission valida que tenga los permisos necesarios para hacer la petición
   beforeHooks: [AuthGuardian.checkPermission],
   // Primero validamos el user que llego
   validate(user) {
@@ -90,9 +95,14 @@ new ValidatedMethod({
 });
 
 new ValidatedMethod({
+  // Nombre del metodo/petición
   name: "deleteUser",
+  // Mixins para colocar los metodos/hooks por aparte, en este caso los metodos "lacosta:method-hooks"
   mixins: [MethodHooks],
+  // Pedimos que quien haga la petición "saveUser" tenga los siguientes permisos:
   permissions: [Permissions.USERS.DELETE.VALUE],
+  // beforeHooks se ejecutara antes de todo el proceso de ejecución de "saveUser"
+  // En este caso checkPermission valida que tenga los permisos necesarios para hacer la petición
   beforeHooks: [AuthGuardian.checkPermission],
   validate({ idUser }) {
     try {
@@ -105,7 +115,9 @@ new ValidatedMethod({
   run({ idUser }) {
     const responseMessage = new ResponseMessage(); // Inicializamos la clase ReponseMessage
     try {
+      // Removemos el user, con remove() de Meteor
       Meteor.users.remove(idUser);
+      // De igual forma removemos sus roles en la colección de "roleAssignment"
       Meteor.roleAssignment.remove({ "user._id": idUser });
       // Creamos el mensaje al finalizar el proceso
       responseMessage.create("Se ha eliminado el usuario correctamente");

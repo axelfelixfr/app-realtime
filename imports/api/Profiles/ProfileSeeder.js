@@ -47,12 +47,16 @@ if (Meteor.isDevelopment) {
         }
       );
 
+      // Buscamos a los usuarios que tenga en profile.profile algún perfil estático
       Meteor.users
         .find({ "profile.profile": StaticProfiles[staticProfileName].name })
         .fetch()
         .forEach(user => {
           Meteor.roleAssignment.remove({ "user._id": user._id });
+          // Si en los permisos son mayores a 0, entonces entra a la condición
+          // Si en permisos tienen 0, no entran a la condición
           if (StaticProfiles[staticProfileName].permissions.length) {
+            // Colocamos con setUserRoles, los permisos de perfiles estáticos
             Roles.setUserRoles(
               user._id,
               StaticProfiles[staticProfileName].permissions,

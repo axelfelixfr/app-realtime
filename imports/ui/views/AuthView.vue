@@ -8,7 +8,7 @@
     >
       <div class="text-center">
         <img
-          src="./img/vue-meteor.png"
+          src="/img/vue-meteor.png"
           alt="Vue meteor"
           width="auto"
           height="180px"
@@ -44,7 +44,7 @@ export default {
   margin-top: 350px;
 }
 .right-side {
-  background-image: url("./img/meteor.jpg");
+  background-image: url("/img/meteor.jpg");
   background-size: cover;
   height: 100vh;
   position: relative;

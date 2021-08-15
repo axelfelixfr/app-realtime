@@ -1,6 +1,8 @@
 import { Roles } from "meteor/alanning:roles";
 
+// Middleware para checar permisos de diferentes acciones
 export class PermissionMiddleware extends PublishMiddleware {
+  // Se contruye el constructor con permisos de super()
   constructor(permissions) {
     super();
     this._permissions = permissions;
@@ -48,6 +50,7 @@ export class PermissionMiddleware extends PublishMiddleware {
     return publish.ready();
   }
 
+  // checkPermission para checar los permisos dependiendo de su pefile
   checkPermission(idUser) {
     const profileName = Roles.getScopesForUser(idUser)[0];
     return Roles.userIsInRole(idUser, this._permissions, profileName);

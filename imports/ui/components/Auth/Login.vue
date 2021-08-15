@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "Login",
   data() {
@@ -50,13 +51,32 @@ export default {
     };
   },
   methods: {
+    ...mapMutations("user", ["setUser"]),
     login() {
-      console.log(this.user);
-      this.$loader.activate();
-      setTimeout(() => {
-        this.$loader.desactivate();
-        this.$alert.showAlertSimple("error", "credenciales incorrectas");
-      }, 2000);
+      // console.log(this.user);
+      // this.$loader.activate();
+      // setTimeout(() => {
+      //   this.$loader.desactivate();
+      //   this.$alert.showAlertSimple("error", "credenciales incorrectas");
+      // }, 2000);
+      Meteor.loginWithPassword(
+        this.user.userOrEmail,
+        this.user.password,
+        error => {
+          if (error) {
+            console.log("Error in login", error),
+              this.$alert.showAlertSimple("error", "credenciales incorrectas");
+          } else {
+            Meteor.logoutOtherClients(err => {
+              if (err) {
+                console.log("Error al cerrar sesión en otros clientes", err);
+              }
+            });
+            this.setUser(Meteor.user());
+            this.$router.push({ name: "main" });
+          }
+        }
+      );
     }
   }
 };

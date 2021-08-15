@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <router-view name="allPageView"></router-view>
+    <!-- Se ponene los componentes de Utilities en App para usarlos de forma global -->
     <AlertMessage />
     <Loader />
     <!-- <v-container>
@@ -18,8 +19,8 @@
 </template>
 
 <script>
-import AlertMessage from "./components/Utilities/Alerts/AlertMessage.vue";
-import Loader from "./components/Utilities/Loaders/Loader.vue";
+import AlertMessage from "./components/Utilities/AlertMessage.vue";
+import Loader from "./components/Utilities/Loader.vue";
 // import ModalRemove from "./components/Utilities/Modals/ModalRemove.vue";
 export default {
   name: "App",

@@ -7,12 +7,17 @@ import Permissions from "../../startup/server/helpers/Permissions";
 import AuthGuardian from "../../middlewares/AuthGuardian";
 
 new ValidatedMethod({
+  // Nombre del metodo/petición
   name: "saveProfile",
+  // Mixins para colocar los metodos/hooks por aparte, en este caso los metodos "lacosta:method-hooks"
   mixins: [MethodHooks],
+  // Pedimos que quien haga la petición "saveProfile" tenga los siguientes permisos:
   permissions: [
     Permissions.PROFILES.CREATE.VALUE,
     Permissions.PROFILES.UPDATE.VALUE
   ],
+  // beforeHooks se ejecutara antes de todo el proceso de ejecución de "saveProfile"
+  // En este caso checkPermission valida que tenga los permisos necesarios para hacer la petición 
   beforeHooks: [AuthGuardian.checkPermission],
   validate(profile) {
     try {
@@ -104,9 +109,14 @@ new ValidatedMethod({
 });
 
 new ValidatedMethod({
+  // Nombre del metodo/petición
   name: "deleteProfile",
+  // Mixins para colocar los metodos/hooks por aparte, en este caso los metodos "lacosta:method-hooks"
   mixins: [MethodHooks],
+  // Pedimos que quien haga la petición "saveProfile" tenga los siguientes permisos:
   permissions: [Permissions.PROFILES.DELETE.VALUE],
+  // beforeHooks se ejecutara antes de todo el proceso de ejecución de "saveProfile"
+  // En este caso checkPermission valida que tenga los permisos necesarios para hacer la petición 
   beforeHooks: [AuthGuardian.checkPermission],
   // Se valida que haya llegado el id del profile correctamente
   validate({ idProfile }) {

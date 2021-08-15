@@ -12,6 +12,7 @@ const profilesPublication = new PublishEndpoint("listProfile", function () {
   });
 });
 
+// Usamos el middleware para los permisos PublishEndpoint y accedemos al valor de PROFILES.LIST para las publicaciones
 profilesPublication.use(
   new PermissionMiddleware([Permissions.PROFILES.LIST.VALUE])
 );
