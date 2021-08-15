@@ -199,14 +199,23 @@ export default {
       this.$router.push({ name: "editUser" });
     },
     openRemoveModal(user) {
-      console.log("Usuario", user);
+      // console.log("Usuario", user);
       this.userTemp.element = user;
       this.userTemp._id = user._id;
-      this.userTemp.mainNameElement = user.name;
+      this.userTemp.mainNameElement = user.profile.name;
       this.$refs.refModalRemove.dialog = true;
     },
     deleteUser(idUser) {
-      console.log("Usuario a eliminar :", idUser);
+      this.$loader.activate("Eliminando usuario...");
+      // console.log("Usuario a eliminar :", idUser);
+      Meteor.call("deleteUser", { idUser }, (error, response) => {
+        this.$loader.desactivate();
+        if (error) {
+          this.$alert.showAlertSimple("error", error.reason);
+        } else {
+          this.$alert.showAlertSimple("success", response.message);
+        }
+      });
     }
   },
   meteor: {
