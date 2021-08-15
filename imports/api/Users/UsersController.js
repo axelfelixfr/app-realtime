@@ -1,10 +1,31 @@
 import { ValidatedMethod } from "meteor/mdg:validated-method";
+import { Accounts } from "meteor/accounts-base";
 import { check, Match } from "meteor/check";
 import { ResponseMessage } from "../../startup/server/utilities/ResponseMessage";
 import UsersServices from "./UsersServices";
+import Permissions from "../../startup/server/helpers/Permissions";
+import AuthGuardian from "../../middlewares/AuthGuardian";
+
+Accounts.validateLoginAttempt(loginAttempt => {
+  if (loginAttempt.allowed) {
+    const loginTokensOfUser =
+      loginAttempt.user.services.resume?.loginTokens || [];
+    if (loginTokensOfUser.length > 1) {
+      Meteor.users.update(loginAttempt.user._id, {
+        $set: {
+          "services.resume.loginTokens": [loginTokensOfUser.pop()]
+        }
+      });
+    }
+    return true;
+  }
+});
 
 new ValidatedMethod({
   name: "saveUser",
+  mixins: [MethodHooks],
+  permissions: [Permissions.USERS.CREATE.VALUE, Permissions.USERS.UPDATE.VALUE],
+  beforeHooks: [AuthGuardian.checkPermission],
   // Primero validamos el user que llego
   validate(user) {
     try {
@@ -31,7 +52,7 @@ new ValidatedMethod({
   // Después realizamos el proceso de base de datos
   // Desestructuramos user, ya que user = { _id, username, emails, profile }
   run({ _id, username, emails, profile, password }) {
-    console.log("Id del usuario logueado: ", this.userId);
+    // console.log("Id del usuario logueado: ", this.userId);
     const responseMessage = new ResponseMessage(); // Inicializamos la clase ReponseMessage
 
     // Si el _id es diferente a null, significa que se trata de una consulta UPDATE
@@ -70,6 +91,9 @@ new ValidatedMethod({
 
 new ValidatedMethod({
   name: "deleteUser",
+  mixins: [MethodHooks],
+  permissions: [Permissions.USERS.DELETE.VALUE],
+  beforeHooks: [AuthGuardian.checkPermission],
   validate({ idUser }) {
     try {
       check(idUser, String);
@@ -82,6 +106,7 @@ new ValidatedMethod({
     const responseMessage = new ResponseMessage(); // Inicializamos la clase ReponseMessage
     try {
       Meteor.users.remove(idUser);
+      Meteor.roleAssignment.remove({ "user._id": idUser });
       // Creamos el mensaje al finalizar el proceso
       responseMessage.create("Se ha eliminado el usuario correctamente");
     } catch (exception) {

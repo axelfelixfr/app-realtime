@@ -3,9 +3,17 @@ import { check, Match } from "meteor/check";
 import { ResponseMessage } from "./../../startup/server/utilities/ResponseMessage";
 import { Profile } from "./Profile";
 import ProfilesServices from "./ProfilesServices";
+import Permissions from "../../startup/server/helpers/Permissions";
+import AuthGuardian from "../../middlewares/AuthGuardian";
 
 new ValidatedMethod({
-  name: "profileSave",
+  name: "saveProfile",
+  mixins: [MethodHooks],
+  permissions: [
+    Permissions.PROFILES.CREATE.VALUE,
+    Permissions.PROFILES.UPDATE.VALUE
+  ],
+  beforeHooks: [AuthGuardian.checkPermission],
   validate(profile) {
     try {
       check(profile, {
@@ -96,7 +104,10 @@ new ValidatedMethod({
 });
 
 new ValidatedMethod({
-  name: "profileDelete",
+  name: "deleteProfile",
+  mixins: [MethodHooks],
+  permissions: [Permissions.PROFILES.DELETE.VALUE],
+  beforeHooks: [AuthGuardian.checkPermission],
   // Se valida que haya llegado el id del profile correctamente
   validate({ idProfile }) {
     try {
