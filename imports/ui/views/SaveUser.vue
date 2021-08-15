@@ -24,20 +24,20 @@
               <v-row>
                 <v-col xs="12" sm="12" md="4">
                   <img
-                    src="./img/vue-meteor.png"
+                    src="/img/vue-meteor.png"
                     alt="Subir imagen"
                     width="150px"
                   />
                 </v-col>
                 <v-col xs="12" sm="12" md="8">
                   <v-text-field
-                    v-model="user.name"
+                    v-model="user.profile.name"
                     id="inputName"
                     name="name"
                     label="Nombre"
                   ></v-text-field>
                   <v-select
-                    v-model="user.profile"
+                    v-model="user.profile.profile"
                     id="selectProfile"
                     label="Perfil"
                     name="profile"
@@ -52,7 +52,7 @@
                     name="username"
                   ></v-text-field>
                   <v-text-field
-                    v-model="user.email"
+                    v-model="user.emails[0].address"
                     id="inputEmail"
                     type="email"
                     label="Correo electrónico"
@@ -75,10 +75,18 @@ export default {
     return {
       user: {
         _id: null,
-        name: null,
         username: null,
-        email: null,
-        profile: null
+        emails: [
+          {
+            address: null,
+            verified: false
+          }
+        ],
+        profile: {
+          profile: null,
+          name: null,
+          path: null
+        }
       },
       profiles: [
         { name: "admin", description: "Administrador" },
@@ -101,7 +109,15 @@ export default {
   },
   methods: {
     saveUser() {
-      console.log(this.user);
+      this.$loader.activate("Guardando usuario...");
+      Meteor.call("saveUser", this.user, (error, response) => {
+        this.$loader.desactivate();
+        if (error) {
+          this.$alert.showAlertSimple("error", error.reason);
+        } else {
+          this.$alert.showAlertSimple("success", response.message);
+        }
+      });
     }
   }
 };
