@@ -21,6 +21,7 @@
         <v-data-table
           :headers="headers"
           :items="users"
+          @dblclick:row="(event, { item }) => openEditUser(item)"
           sort-by="name"
           class="elevation-1"
         >
@@ -197,7 +198,7 @@ export default {
     ...mapMutations("crud", ["setRegister"]),
     openEditUser(user) {
       // Editar usuario
-      console.log(user);
+      // console.log(user);
       this.setRegister(user);
       this.$router.push({ name: "editUser" });
     },
@@ -211,6 +212,8 @@ export default {
     deleteUser(idUser) {
       this.$loader.activate("Eliminando usuario...");
       // console.log("Usuario a eliminar :", idUser);
+
+      // Meteor.call('<nombre_del_endpoint>', args, callbackFunction)
       Meteor.call("deleteUser", { idUser }, (error, response) => {
         this.$loader.desactivate();
         if (error) {
