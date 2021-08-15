@@ -93,6 +93,7 @@
 
 <script>
 import ModalRemove from "../components/Utilities/ModalRemove.vue";
+import { mapMutations } from "vuex";
 
 export default {
   name: "ListUsersView",
@@ -193,9 +194,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations("crud", ["setRegister"]),
     openEditUser(user) {
       // Editar usuario
       console.log(user);
+      this.setRegister(user);
       this.$router.push({ name: "editUser" });
     },
     openRemoveModal(user) {

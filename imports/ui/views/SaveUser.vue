@@ -107,6 +107,13 @@ export default {
     } else if (this.$router.currentRoute.name.includes("edit")) {
       this.dataView.title = "Editar usuario";
       this.dataView.targetButton = "Editar";
+      const tempUser = this.$store.state.crud.register;
+      this.user = {
+        _id: tempUser._id,
+        username: tempUser.username,
+        emails: tempUser.emails,
+        profile: tempUser.profile
+      };
     }
   },
   methods: {
