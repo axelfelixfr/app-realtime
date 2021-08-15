@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import { Profile } from "../../api/Profiles/Profile";
+
 export default {
   name: "SaveUser",
   data() {
@@ -88,10 +90,10 @@ export default {
           path: null
         }
       },
-      profiles: [
-        { name: "admin", description: "Administrador" },
-        { name: "chat", description: "Usuario Chat" }
-      ],
+      // profiles: [
+      //   { name: "admin", description: "Administrador" },
+      //   { name: "chat", description: "Usuario Chat" }
+      // ],
       dataView: {
         title: "",
         targetButton: ""
@@ -116,8 +118,18 @@ export default {
           this.$alert.showAlertSimple("error", error.reason);
         } else {
           this.$alert.showAlertSimple("success", response.message);
+          this.$router.push({ name: "users" });
         }
       });
+    }
+  },
+  meteor: {
+    $subscribe: {
+      // Se maneja como arreglo vacío ya que el endpoint no necesita argumentos
+      listAllProfiles: []
+    },
+    profiles() {
+      return Profile.find().fetch();
     }
   }
 };
