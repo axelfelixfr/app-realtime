@@ -64,7 +64,11 @@
           >
             <v-list style="height: 400px">
               <v-list-item-group>
-                <draggable :list="selfPermissions" group="permissions">
+                <draggable
+                  :list="filteredSelfPermissions"
+                  @change="ev => onChangeDragList(ev, 'selfPermissions')"
+                  group="permissions"
+                >
                   <v-list-item
                     v-for="permission in filteredSelfPermissions"
                     :key="permission._id"
@@ -96,7 +100,11 @@
           >
             <v-list style="height: 400px">
               <v-list-item-group>
-                <draggable :list="allPermissions" group="permissions">
+                <draggable
+                  :list="filteredPermissions"
+                  @change="ev => onChangeDragList(ev, 'allPermissions')"
+                  group="permissions"
+                >
                   <v-list-item
                     v-for="permission in filteredPermissions"
                     :key="permission._id"
@@ -153,6 +161,15 @@ export default {
     }
   },
   methods: {
+    onChangeDragList(event, propData) {
+      if (event.hasOwnProperty("removed")) {
+        this[propData] = this[propData].filter(
+          permission => permission._id !== event.removed.element._id
+        );
+      } else if (event.hasOwnProperty("added")) {
+        this[propData].splice(event.added.newIndex, 0, event.added.element);
+      }
+    },
     saveProfile() {
       console.log(this.profile);
     }
