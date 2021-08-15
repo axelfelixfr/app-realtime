@@ -106,26 +106,26 @@ export default {
         username: "",
         email: ""
       },
-      users: [
-        {
-          _id: 1,
-          name: "Peter parker",
-          username: "Spider-man",
-          email: "spidy@correo.com"
-        },
-        {
-          _id: 2,
-          name: "Tony Stark",
-          username: "iron-man",
-          email: "ironman@correo.com"
-        },
-        {
-          _id: 3,
-          name: "Steve Rogers",
-          username: "Capitan america",
-          email: "capi@correo.com"
-        }
-      ],
+      // users: [
+      //   {
+      //     _id: 1,
+      //     name: "Peter parker",
+      //     username: "Spider-man",
+      //     email: "spidy@correo.com"
+      //   },
+      //   {
+      //     _id: 2,
+      //     name: "Tony Stark",
+      //     username: "iron-man",
+      //     email: "ironman@correo.com"
+      //   },
+      //   {
+      //     _id: 3,
+      //     name: "Steve Rogers",
+      //     username: "Capitan america",
+      //     email: "capi@correo.com"
+      //   }
+      // ],
       userTemp: {
         preposition: "al",
         typeElement: "usuario",
@@ -140,7 +140,7 @@ export default {
       return [
         // La propiedad "sortable" es para ordenar la columna, de forma ascendente o descendente
         {
-          value: "name",
+          value: "profile.name",
           text: "Nombre",
           sortable: true,
           filter: value => {
@@ -170,7 +170,7 @@ export default {
           }
         },
         {
-          value: "email",
+          value: "emails[0].address",
           text: "Correo electrónico",
           sortable: true,
           filter: value => {
@@ -207,6 +207,15 @@ export default {
     },
     deleteUser(idUser) {
       console.log("Usuario a eliminar :", idUser);
+    }
+  },
+  meteor: {
+    $subscribe: {
+      // Se maneja como arreglo vacío ya que el endpoint no necesita argumentos
+      listUser: []
+    },
+    users() {
+      return Meteor.users.find({ _id: { $ne: Meteor.userId() } }).fetch();
     }
   }
 };
