@@ -1,6 +1,46 @@
 <template>
   <v-snackbar
     v-model="snackbar"
+    :color="color"
+    :multi-line="multiLine"
+    timeout="6000"
+    absolute
+    bottom
+    right
+    text
+  >
+    <v-btn class="ma-2" v-if="icon" text icon :color="color">
+      <v-icon>{{ icon }}</v-icon>
+    </v-btn>
+    <span class="text-h6">{{ title }}</span>
+    <p v-if="text">
+      <span class="ml-3">{{ text }}</span>
+    </p>
+    <template v-slot:action="{ attrs }">
+      <v-btn :color="color" text v-bind="attrs" @click="snackbar = false">
+        <v-icon small>mdi-window-close</v-icon>
+      </v-btn>
+    </template>
+  </v-snackbar>
+  <!-- <div class="ml-auto">
+    <v-alert
+      v-model="alert"
+      dismissible
+      border="left"
+      elevation="2"
+      colored-border
+      :icon="icon"
+      :type="type"
+    >
+      <span class="text-h6">{{ title }}</span>
+      <p v-if="text">
+        <span>{{ text }}</span>
+      </p>
+    </v-alert>
+  </div> -->
+
+  <!-- <v-snackbar
+    v-model="snackbar"
     class="v-snack__content"
     :bottom="y === 'bottom'"
     :right="x === 'right'"
@@ -29,7 +69,7 @@
         <span class="white--text">{{ text }}</span>
       </v-card-text>
     </v-card>
-  </v-snackbar>
+  </v-snackbar> -->
 </template>
 
 <script>
@@ -37,15 +77,26 @@ export default {
   name: "AlertMessage",
   data() {
     return {
+      // snackbar: false,
+      // x: "",
+      // y: "",
+      // color: "",
+      // mode: "",
+      // icon: null,
+      // title: "",
+      // text: "",
+      // timeout: 6000
+      // alert: false,
+      // icon: null,
+      // type: null,
+      // title: "",
+      // text: ""
       snackbar: false,
-      x: "",
-      y: "",
-      color: "",
-      mode: "",
+      multiLine: false,
       icon: null,
+      color: "",
       title: "",
-      text: "",
-      timeout: 6000
+      text: ""
     };
   },
   mounted() {
@@ -59,11 +110,44 @@ export default {
      * @param color 'Color de la alerta': success, error, info, primary, warning
      * @param title 'Título de la alerta'
      */
+    // showAlertSimple(color, title) {
+    //   this.color = color;
+    //   this.title = title;
+    //   this.x = "right";
+    //   this.y = "bottom";
+    //   if (color === "success") {
+    //     this.icon = "mdi-check-outline";
+    //   } else if (color === "error") {
+    //     this.icon = "mdi-close-octagon-outline";
+    //   } else if (color === "info") {
+    //     this.icon = "mdi-information-outline";
+    //   } else if (color === "warning") {
+    //     this.icon = "mdi-alert-outline";
+    //   }
+    //   this.text = "";
+    //   this.mode = "";
+    //   this.timeout = 6000;
+    //   this.snackbar = true;
+    // },
+    // hideAlert() {
+    //   this.alert = false;
+    // },
+    // showAlertSimple(type, title) {
+    //   if (type === "success") {
+    //     this.icon = "mdi-check-outline";
+    //   } else if (type === "error") {
+    //     this.icon = "mdi-close-octagon-outline";
+    //   } else if (type === "info") {
+    //     this.icon = "mdi-information-outline";
+    //   } else if (type === "warning") {
+    //     this.icon = "mdi-alert-outline";
+    //   }
+    //   this.type = type;
+    //   this.title = title;
+    //   this.alert = true;
+    //   setTimeout(this.hideAlert, 5000);
+    // },
     showAlertSimple(color, title) {
-      this.color = color;
-      this.title = title;
-      this.x = "right";
-      this.y = "bottom";
       if (color === "success") {
         this.icon = "mdi-check-outline";
       } else if (color === "error") {
@@ -73,9 +157,9 @@ export default {
       } else if (color === "warning") {
         this.icon = "mdi-alert-outline";
       }
-      this.text = "";
-      this.mode = "";
-      this.timeout = 6000;
+      this.text = null;
+      this.color = color;
+      this.title = title;
       this.snackbar = true;
     },
     /**
@@ -90,14 +174,46 @@ export default {
      * @param text 'Contenido de la alerta'
      *
      */
-    showAlertFull(icon, color, title, mode, timeout, x, y, text = null) {
-      this.icon = icon;
+    // showAlertFull(icon, color, title, mode, timeout, x, y, text = null) {
+    //   this.icon = icon;
+    //   this.color = color;
+    //   this.title = title;
+    //   this.mode = mode;
+    //   this.timeout = timeout;
+    //   this.x = x;
+    //   this.y = y;
+    //   this.text = text;
+    //   this.snackbar = true;
+    // }
+    // showAlertFull(type, title, text) {
+    //   if (type === "success") {
+    //     this.icon = "mdi-check-outline";
+    //   } else if (type === "error") {
+    //     this.icon = "mdi-close-octagon-outline";
+    //   } else if (type === "info") {
+    //     this.icon = "mdi-information-outline";
+    //   } else if (type === "warning") {
+    //     this.icon = "mdi-alert-outline";
+    //   }
+    //   this.type = type;
+    //   this.title = title;
+    //   this.text = text;
+    //   this.alert = true;
+    //   setTimeout(this.hideAlert, 5000);
+    // }
+    showAlertFull(color, title, text) {
+      if (color === "success") {
+        this.icon = "mdi-check-outline";
+      } else if (color === "error") {
+        this.icon = "mdi-close-octagon-outline";
+      } else if (color === "info") {
+        this.icon = "mdi-information-outline";
+      } else if (color === "warning") {
+        this.icon = "mdi-alert-outline";
+      }
+      this.multiLine = true;
       this.color = color;
       this.title = title;
-      this.mode = mode;
-      this.timeout = timeout;
-      this.x = x;
-      this.y = y;
       this.text = text;
       this.snackbar = true;
     }

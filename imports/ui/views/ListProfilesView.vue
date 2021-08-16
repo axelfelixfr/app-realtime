@@ -109,7 +109,7 @@ export default {
       this.$router.push({ name: "editProfile" });
     },
     openRemoveModal(profile) {
-      console.log("Perfil", profile);
+      // console.log("Perfil", profile);
       this.profileTemp.element = profile;
       this.profileTemp._id = profile._id;
       this.profileTemp.mainNameElement = profile.description;
@@ -121,16 +121,7 @@ export default {
         this.$loader.desactivate();
         if (error) {
           if (error.details) {
-            this.$alert.showAlertFull(
-              "warning",
-              "warning",
-              error.reason,
-              "multi-line",
-              5000,
-              "right",
-              "bottom",
-              error.details
-            );
+            this.$alert.showAlertFull("warning", error.reason, error.details);
           } else {
             this.$alert.showAlertSimple("error", error.reason);
           }
