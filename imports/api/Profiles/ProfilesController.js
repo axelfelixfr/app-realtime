@@ -17,7 +17,7 @@ new ValidatedMethod({
     Permissions.PROFILES.UPDATE.VALUE
   ],
   // beforeHooks se ejecutara antes de todo el proceso de ejecución de "saveProfile"
-  // En este caso checkPermission valida que tenga los permisos necesarios para hacer la petición 
+  // En este caso checkPermission valida que tenga los permisos necesarios para hacer la petición
   beforeHooks: [AuthGuardian.checkPermission],
   validate(profile) {
     try {
@@ -116,7 +116,7 @@ new ValidatedMethod({
   // Pedimos que quien haga la petición "saveProfile" tenga los siguientes permisos:
   permissions: [Permissions.PROFILES.DELETE.VALUE],
   // beforeHooks se ejecutara antes de todo el proceso de ejecución de "saveProfile"
-  // En este caso checkPermission valida que tenga los permisos necesarios para hacer la petición 
+  // En este caso checkPermission valida que tenga los permisos necesarios para hacer la petición
   beforeHooks: [AuthGuardian.checkPermission],
   // Se valida que haya llegado el id del profile correctamente
   validate({ idProfile }) {
@@ -125,6 +125,14 @@ new ValidatedMethod({
     } catch (exception) {
       console.log("profileDelete: ", exception);
       throw new Meteor.Error("403", "La información introducida no es válida");
+    }
+    const users = ProfilesServices.getUsersByProfile(idProfile);
+    if (users.length) {
+      throw new Meteor.Error(
+        "403",
+        "No se puede eliminar el perfil",
+        "Existen usuarios usando este perfil"
+      );
     }
   },
   // Se corre el método de eliminación

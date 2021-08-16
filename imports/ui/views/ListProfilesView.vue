@@ -116,7 +116,28 @@ export default {
       this.$refs.refModalRemove.dialog = true;
     },
     deleteProfile(idProfile) {
-      console.log("Perfil a eliminar :", idProfile);
+      this.$loader.activate("Eliminando perfil...");
+      Meteor.call("deleteProfile", { idProfile }, (error, response) => {
+        this.$loader.desactivate();
+        if (error) {
+          if (error.details) {
+            this.$alert.showAlertFull(
+              "warning",
+              "warning",
+              error.reason,
+              "multi-line",
+              5000,
+              "right",
+              "bottom",
+              error.details
+            );
+          } else {
+            this.$alert.showAlertSimple("error", error.reason);
+          }
+        } else {
+          this.$alert.showAlertSimple("success", response.message);
+        }
+      });
     }
   },
   meteor: {
