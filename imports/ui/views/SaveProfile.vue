@@ -172,7 +172,18 @@ export default {
       }
     },
     saveProfile() {
-      console.log(this.profile);
+      this.$loader.activate("Guardando perfil...");
+      this.profile.permissions = this.selfPermissions.map(
+        permission => permission._id
+      );
+      Meteor.call("saveProfile", this.profile, (error, response) => {
+        this.$loader.desactivate();
+        if (error) {
+          this.$alert.showAlertSimple("error", error.reason);
+        } else {
+          this.$alert.showAlertSimple("success", response.message);
+        }
+      });
     },
     listAllPermissions() {
       Meteor.call("listPermissions", (error, response) => {

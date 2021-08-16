@@ -68,6 +68,7 @@
 
 <script>
 import ModalRemove from "../components/Utilities/ModalRemove.vue";
+import { Profile } from "../../api/Profiles/Profile";
 
 export default {
   name: "ListProfilesView",
@@ -80,18 +81,18 @@ export default {
         { value: "description", text: "Nombre del perfil", sortable: true },
         { value: "action", text: "Opciones", sortable: false }
       ],
-      profiles: [
-        {
-          _id: 1,
-          name: "admin",
-          description: "Administrador"
-        },
-        {
-          _id: 2,
-          name: "chat",
-          description: "Usuario chat"
-        }
-      ],
+      // profiles: [
+      //   {
+      //     _id: 1,
+      //     name: "admin",
+      //     description: "Administrador"
+      //   },
+      //   {
+      //     _id: 2,
+      //     name: "chat",
+      //     description: "Usuario chat"
+      //   }
+      // ],
       profileTemp: {
         preposition: "el",
         typeElement: "perfil",
@@ -116,6 +117,14 @@ export default {
     },
     deleteProfile(idProfile) {
       console.log("Perfil a eliminar :", idProfile);
+    }
+  },
+  meteor: {
+    $subscribe: {
+      listNotStacticProfiles: []
+    },
+    profiles() {
+      return Profile.find().fetch();
     }
   }
 };
