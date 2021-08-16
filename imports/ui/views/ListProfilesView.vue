@@ -21,6 +21,7 @@
         <v-data-table
           :headers="headers"
           :items="profiles"
+          @dblclick:row="(ev, { item }) => openEditProfile(item)"
           sort-by="name"
           class="elevation-1"
         >
@@ -69,6 +70,7 @@
 <script>
 import ModalRemove from "../components/Utilities/ModalRemove.vue";
 import { Profile } from "../../api/Profiles/Profile";
+import { mapMutations } from "vuex";
 
 export default {
   name: "ListProfilesView",
@@ -103,9 +105,12 @@ export default {
     };
   },
   methods: {
+    ...mapMutations("crud", ["setRegister"]),
     openEditProfile(profile) {
+      this.setRegister(profile);
       // Editar perfil
-      console.log(profile);
+      // console.log(profile);
+
       this.$router.push({ name: "editProfile" });
     },
     openRemoveModal(profile) {

@@ -160,6 +160,8 @@ export default {
       this.dataView.title = "Editar perfil";
       this.dataView.targetButton = "Editar";
     }
+    this.profile = this.$store.state.crud.register;
+    this.initPermissionsLists();
   },
   methods: {
     onChangeDragList(event, propData) {
@@ -182,6 +184,7 @@ export default {
           this.$alert.showAlertSimple("error", error.reason);
         } else {
           this.$alert.showAlertSimple("success", response.message);
+          this.$router.push({ name: "profiles" });
         }
       });
     },
@@ -195,6 +198,31 @@ export default {
           // this.$alert.showAlertSimple("success", response.message)
         }
       });
+    },
+    initPermissionsLists() {
+      Meteor.call(
+        "listPermissionsByProfile",
+        { idProfile: this.profile._id },
+        (error, response) => {
+          if (error) {
+            this.$alert.showAlertSimple("error", error.reason);
+          } else {
+            this.selfPermissions = response.data;
+          }
+        }
+      );
+
+      Meteor.call(
+        "listOtherForIdProfile",
+        { idProfile: this.profile._id },
+        (error, response) => {
+          if (error) {
+            this.$alert.showAlertSimple("error", error.reason);
+          } else {
+            this.allPermissions = response.data;
+          }
+        }
+      );
     }
   },
   computed: {
