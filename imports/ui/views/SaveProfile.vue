@@ -72,7 +72,7 @@
                   <v-list-item
                     v-for="permission in filteredSelfPermissions"
                     :key="permission._id"
-                    v-text="permission._id"
+                    v-text="permission.publicName"
                   >
                   </v-list-item>
                 </draggable>
@@ -108,7 +108,7 @@
                   <v-list-item
                     v-for="permission in filteredPermissions"
                     :key="permission._id"
-                    v-text="permission._id"
+                    v-text="permission.publicName"
                   >
                   </v-list-item>
                 </draggable>
@@ -144,10 +144,10 @@ export default {
       searchPermission: "",
       selfPermissions: [],
       allPermissions: [
-        { _id: "users-view" },
-        { _id: "users-create" },
-        { _id: "users-edit" },
-        { _id: "users-delete" }
+        // { _id: "users-view" },
+        // { _id: "users-create" },
+        // { _id: "users-edit" },
+        // { _id: "users-delete" }
       ]
     };
   },
@@ -155,6 +155,7 @@ export default {
     if (this.$router.currentRoute.name.includes("create")) {
       this.dataView.title = "Crear perfil";
       this.dataView.targetButton = "Crear";
+      this.listAllPermissions();
     } else if (this.$router.currentRoute.name.includes("edit")) {
       this.dataView.title = "Editar perfil";
       this.dataView.targetButton = "Editar";
@@ -172,19 +173,30 @@ export default {
     },
     saveProfile() {
       console.log(this.profile);
+    },
+    listAllPermissions() {
+      Meteor.call("listPermissions", (error, response) => {
+        if (error) {
+          this.$alert.showAlertSimple("error", error.reason);
+        } else {
+          // data son los permissions
+          this.allPermissions = response.data;
+          // this.$alert.showAlertSimple("success", response.message)
+        }
+      });
     }
   },
   computed: {
     filteredSelfPermissions() {
       return this.selfPermissions.filter(permission => {
-        return permission._id
+        return permission.publicName
           .toLowerCase()
           .includes(this.searchSelfPermission.toLowerCase());
       });
     },
     filteredPermissions() {
       return this.allPermissions.filter(permission => {
-        return permission._id
+        return permission.publicName
           .toLowerCase()
           .includes(this.searchPermission.toLowerCase());
       });

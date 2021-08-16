@@ -8,3 +8,5 @@ import "../../api/Users/UsersPublish";
 import "../../api/Profiles/ProfileSeeder";
 import "../../api/Profiles/ProfilesController";
 import "../../api/Profiles/ProfilesPublish";
+
+import "../../api/Permissions/PermissionsController";
