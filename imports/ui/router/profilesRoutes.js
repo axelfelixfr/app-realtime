@@ -1,5 +1,5 @@
 import ListProfilesView from "../views/ListProfilesView.vue";
-import SaveProfile from "../views/SaveProfile.vue";
+import SaveProfileView from "../views/SaveProfileView.vue";
 
 export default {
   path: "perfiles",
@@ -12,17 +12,26 @@ export default {
     {
       name: "profiles",
       path: "",
-      component: ListProfilesView
+      component: ListProfilesView,
+      meta: {
+        permission: "profiles-view"
+      }
     },
     {
       name: "createProfile",
       path: "crear",
-      component: SaveProfile
+      component: SaveProfileView,
+      meta: {
+        permission: "profiles-create"
+      }
     },
     {
       name: "editProfile",
       path: "editar",
-      component: SaveProfile
+      component: SaveProfileView,
+      meta: {
+        permission: "profiles-edit"
+      }
     }
   ]
 };

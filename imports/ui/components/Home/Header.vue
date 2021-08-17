@@ -28,24 +28,24 @@ export default {
     return {
       optionSelected: 0,
       options: [
-        {
-          index: 0,
-          icon: "home",
-          title: "Inicio",
-          namePath: "main"
-        },
-        {
-          index: 1,
-          icon: "person",
-          title: "Usuarios",
-          namePath: "users"
-        },
-        {
-          index: 2,
-          icon: "user-tag",
-          title: "Perfiles",
-          namePath: "profiles"
-        }
+        // {
+        //   index: 0,
+        //   icon: "home",
+        //   title: "Inicio",
+        //   namePath: "main"
+        // },
+        // {
+        //   index: 1,
+        //   icon: "person",
+        //   title: "Usuarios",
+        //   namePath: "users"
+        // },
+        // {
+        //   index: 2,
+        //   icon: "user-tag",
+        //   title: "Perfiles",
+        //   namePath: "profiles"
+        // }
       ]
     };
   },
@@ -55,15 +55,22 @@ export default {
     }
   },
   created() {
+    Meteor.call("getSystemOptionsUser", (error, response) => {
+      if (error) {
+        this.$alert.showAlertSimple("error", error.reason);
+      } else {
+        this.options = response.data;
+      }
+    });
     this.updateSelectedOption();
   },
   methods: {
     goToView(option) {
-      this.$router.push({ name: option.namePath });
+      this.$router.push({ name: option.routeName });
     },
     updateSelectedOption() {
       const selectedOption = this.options.find(
-        option => option.namePath == this.$route.name
+        option => option.routeName == this.$route.name
       );
       this.optionSelected = selectedOption
         ? this.options.indexOf(selectedOption)

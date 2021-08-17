@@ -35,15 +35,18 @@ export default {
   },
   methods: {
     ...mapMutations("user", ["logout"]),
+    ...mapMutations("crud", ["setRegister"]),
     closeSession() {
       this.onLogoutHook.stop();
       Meteor.logout();
       this.logout();
+      this.setRegister(null);
       this.$router.push({ name: "login" });
     },
     closeFrotendSession() {
       this.onLogoutHook.stop();
       this.logout();
+      this.setRegister(null);
       this.$router.push({ name: "login" });
     },
     setSession() {

@@ -5,6 +5,7 @@ import Permissions from "../../startup/server/helpers/Permissions";
 import AuthGuardian from "../../middlewares/AuthGuardian";
 import { check } from "meteor/check";
 import { Profile } from "../Profiles/Profile";
+import { Roles } from "meteor/alanning:roles";
 
 new ValidatedMethod({
   name: "listPermissions",
@@ -64,36 +65,33 @@ new ValidatedMethod({
 });
 
 new ValidatedMethod({
-  name: "listOtherForIdProfile",
+  name: "checkPermission",
   mixins: [MethodHooks],
-  permissions: [Permissions.PERMISSIONS.LIST.VALUE],
-  beforeHooks: [AuthGuardian.checkPermission],
-  validate({ idProfile }) {
+  beforeHooks: [AuthGuardian.isUserLogged],
+  validate({ permission }) {
     try {
-      check(idProfile, String);
+      check(permission, String);
     } catch (exception) {
-      console.error("listOtherForIdProfile: ", exception);
+      console.error("checkPermission", exception);
       throw new Meteor.Error("403", "La información introducida no es válida");
     }
   },
-  run({ idProfile }) {
+  run({ permission }) {
     const responseMessage = new ResponseMessage();
     try {
-      const profile = Profile.findOne(idProfile);
-      const permissions = Meteor.roles
-        .find({ _id: { $not: { $in: profile.permissions } } })
-        .fetch();
+      // Accedemos a la posición 0, ya que los usuarios solo tienen un scope (osea un perfil de usuario)
+      const scope = Roles.getScopesForUser(this.userId)[0];
+      // El permission es aquel que queremos verificar si tiene el usuario dentro de su scope
+      const hasPermission = Roles.userIsInRole(this.userId, permission, scope);
+      // Roles.userIsInRole regresa un valor boolean, true si tiene el permiso y viceversa
       responseMessage.create(
-        "Permisos no asociados al perfil",
+        `El usuario ${hasPermission ? "Si" : "No"} tiene el permiso`,
         null,
-        permissions
+        { hasPermission }
       );
     } catch (exception) {
-      console.log("listOtherForIdProfile: ", exception);
-      throw new Meteor.Error(
-        "500",
-        "Ocurrió un error al obtener los permisos no asociados al perfil"
-      );
+      console.log("checkPermission", exception);
+      throw new Meteor.Error("500", "Ocurrió un error al verificar el permiso");
     }
 
     return responseMessage;

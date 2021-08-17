@@ -56,7 +56,7 @@ new ValidatedMethod({
   },
   // Después realizamos el proceso de base de datos
   // Desestructuramos user, ya que user = { _id, username, emails, profile }
-  run({ _id, username, emails, profile, password }) {
+  run({ _id, username, emails, profile }) {
     // console.log("Id del usuario logueado: ", this.userId);
     const responseMessage = new ResponseMessage(); // Inicializamos la clase ReponseMessage
 

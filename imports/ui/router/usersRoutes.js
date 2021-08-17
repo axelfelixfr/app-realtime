@@ -1,5 +1,5 @@
 import ListUsersView from "../views/ListUsersView.vue";
-import SaveUser from "../views/SaveUser.vue";
+import SaveUserView from "../views/SaveUserView.vue";
 
 export default {
   path: "usuarios",
@@ -12,17 +12,26 @@ export default {
     {
       name: "users",
       path: "",
-      component: ListUsersView
+      component: ListUsersView,
+      meta: {
+        permission: "users-view"
+      }
     },
     {
       name: "createUser",
       path: "crear",
-      component: SaveUser
+      component: SaveUserView,
+      meta: {
+        permission: "users-create"
+      }
     },
     {
       name: "editUser",
       path: "editar",
-      component: SaveUser
+      component: SaveUserView,
+      meta: {
+        permission: "users-edit"
+      }
     }
   ]
 };
