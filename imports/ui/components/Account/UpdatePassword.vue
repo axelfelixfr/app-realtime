@@ -44,7 +44,7 @@
           <v-btn type="submit" color="primary" rounded depressed>Cambiar</v-btn>
         </v-row> -->
 
-        <div class="d-flex start">
+        <div class="d-flex center">
           <v-btn type="submit" color="primary" rounded depressed
             >Resetear</v-btn
           >
@@ -72,7 +72,26 @@ export default {
     };
   },
   methods: {
-    updatePassword() {}
+    updatePassword() {
+      Accounts.changePassword(this.password.old, this.password.new, error => {
+        if (error) {
+          this.$alert.showAlertSimple(
+            "error",
+            "Ocurrió un error al cambiar la contraseña"
+          );
+        } else {
+          this.password = {
+            old: null,
+            new: null,
+            confirm: null
+          };
+          this.$alert.showAlertSimple(
+            "success",
+            "Se ha cambiado la contraseña correctamente"
+          );
+        }
+      });
+    }
   }
 };
 </script>
