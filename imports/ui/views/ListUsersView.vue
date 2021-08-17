@@ -7,6 +7,7 @@
             <template v-slot:activator="{ on }">
               <v-btn
                 color="success"
+                v-can:create.hide="'users'"
                 v-on="on"
                 fab
                 dark
@@ -30,6 +31,7 @@
               <template v-slot:activator="{ on }">
                 <v-icon
                   color="info"
+                  v-can:edit.hide="'users'"
                   v-on="on"
                   small
                   class="mr-2"
@@ -45,6 +47,7 @@
               <template v-slot:activator="{ on }">
                 <v-icon
                   color="error"
+                  v-can:delete.hide="'users'"
                   v-on="on"
                   small
                   class="mr-2"

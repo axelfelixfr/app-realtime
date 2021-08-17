@@ -10,5 +10,6 @@ import "../../api/Profiles/ProfilesController";
 import "../../api/Profiles/ProfilesPublish";
 
 import "../../api/Permissions/PermissionsController";
+import "../../api/Permissions/PermissionsPublish";
 
 import "../../api/SystemOptions/SystemOptionsController";

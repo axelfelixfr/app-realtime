@@ -8,6 +8,7 @@
               <v-btn
                 color="success"
                 v-on="on"
+                v-can:create.hide="'profiles'"
                 fab
                 dark
                 :to="{ name: 'createProfile' }"
@@ -31,6 +32,7 @@
                 <v-icon
                   color="info"
                   v-on="on"
+                  v-can:edit.hide="'profiles'"
                   small
                   class="mr-2"
                   @click="openEditProfile(item)"
@@ -46,6 +48,7 @@
                 <v-icon
                   color="error"
                   v-on="on"
+                  v-can:delete.hide="'profiles'"
                   small
                   class="mr-2"
                   @click="openRemoveModal(item)"
