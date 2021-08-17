@@ -65,6 +65,43 @@ new ValidatedMethod({
 });
 
 new ValidatedMethod({
+  name: "listOtherForIdProfile",
+  mixins: [MethodHooks],
+  permissions: [Permissions.PERMISSIONS.LIST.VALUE],
+  beforeHooks: [AuthGuardian.checkPermission],
+  validate({ idProfile }) {
+    try {
+      check(idProfile, String);
+    } catch (exception) {
+      console.error("listOtherForIdProfile: ", exception);
+      throw new Meteor.Error("403", "La información introducida no es válida");
+    }
+  },
+  run({ idProfile }) {
+    const responseMessage = new ResponseMessage();
+    try {
+      const profile = Profile.findOne(idProfile);
+      const permissions = Meteor.roles
+        .find({ _id: { $not: { $in: profile.permissions } } })
+        .fetch();
+      responseMessage.create(
+        "Permisos no asociados al perfil",
+        null,
+        permissions
+      );
+    } catch (exception) {
+      console.log("listOtherForIdProfile: ", exception);
+      throw new Meteor.Error(
+        "500",
+        "Ocurrió un error al obtener los permisos no asociados al perfil"
+      );
+    }
+
+    return responseMessage;
+  }
+});
+
+new ValidatedMethod({
   name: "checkPermission",
   mixins: [MethodHooks],
   beforeHooks: [AuthGuardian.isUserLogged],

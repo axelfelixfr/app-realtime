@@ -29,24 +29,28 @@ export default {
     this.setSession();
   },
   mounted() {
+    // Listener
+    this.$root.$on("setUserLogged", () => {
+      this.setSession();
+    });
     this.onLogoutHook = Accounts.onLogout(() => {
       this.closeFrotendSession();
     });
   },
   methods: {
     ...mapMutations("user", ["logout"]),
-    ...mapMutations("crud", ["setRegister"]),
+    // ...mapMutations("crud", ["setRegister"]),
     closeSession() {
       this.onLogoutHook.stop();
       Meteor.logout();
       this.logout();
-      this.setRegister(null);
+      // this.setRegister(null);
       this.$router.push({ name: "login" });
     },
     closeFrotendSession() {
       this.onLogoutHook.stop();
       this.logout();
-      this.setRegister(null);
+      // this.setRegister(null);
       this.$router.push({ name: "login" });
     },
     setSession() {

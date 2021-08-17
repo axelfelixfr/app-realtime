@@ -67,25 +67,19 @@ router.beforeEach((to, from, next) => {
     const permission = to.meta.permission;
     // Preguntamos si existe esa llave de permission en la ruta que quiere ir, en su atributo meta
     if (permission) {
-      Meteor.call(
-        "checkPermission",
-        { permission },
-        function (error, response) {
-          if (error) {
-            console.log("error", error);
-            this.$alert.showAlertSimple("error", error.message);
-          } else if (response.data.hasPermission) {
-            next();
-          } else {
-            next(from.path);
-            this.$alert.showAlertSimple(
-              "warning",
-              "No tienes los permisos para acceder a esta sección"
-            );
-            console.warn("No tienes los permisos para acceder a esta sección");
-          }
+      Meteor.call("checkPermission", { permission }, (error, response) => {
+        if (error) {
+          console.log("error", error);
+          this.$alert.showAlertSimple("error", error.message);
+        } else if (response.data.hasPermission) {
+          next();
+        } else {
+          // next(from.path);
+          // router.push({ path: from.path });
+          router.replace({ path: from.path }).catch(() => {});
+          console.warn("No tienes los permisos para acceder a esta sección");
         }
-      );
+      });
     } else {
       next();
     }

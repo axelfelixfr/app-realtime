@@ -99,9 +99,9 @@ new ValidatedMethod({
   name: "deleteUser",
   // Mixins para colocar los metodos/hooks por aparte, en este caso los metodos "lacosta:method-hooks"
   mixins: [MethodHooks],
-  // Pedimos que quien haga la petición "saveUser" tenga los siguientes permisos:
+  // Pedimos que quien haga la petición "deleteUser" tenga los siguientes permisos:
   permissions: [Permissions.USERS.DELETE.VALUE],
-  // beforeHooks se ejecutara antes de todo el proceso de ejecución de "saveUser"
+  // beforeHooks se ejecutara antes de todo el proceso de ejecución de "deleteUser"
   // En este caso checkPermission valida que tenga los permisos necesarios para hacer la petición
   beforeHooks: [AuthGuardian.checkPermission],
   validate({ idUser }) {
@@ -126,6 +126,61 @@ new ValidatedMethod({
       throw new Meteor.Error("500", "Ocurrió un error al eliminar el usuario");
     }
 
+    // Retornamos el mensaje por último
+    return responseMessage;
+  }
+});
+
+new ValidatedMethod({
+  // Nombre del metodo/petición
+  name: "updatePersonalDataUser",
+  // Mixins para colocar los metodos/hooks por aparte, en este caso los metodos "lacosta:method-hooks"
+  mixins: [MethodHooks],
+  // beforeHooks se ejecutara antes de todo el proceso de ejecución de "updatePersonalDataUser"
+  // En este caso checkPermission valida que tenga los permisos necesarios para hacer la petición
+  beforeHooks: [AuthGuardian.isUserLogged],
+  // Primero validamos el user que llego
+  validate(user) {
+    try {
+      // Con check validamos los datos del user
+      check(user, {
+        // El _id puese ser un string (se trata de actualizar registro, UPDATE) o null (se trata de un nuevo registro, INSERT)
+        _id: Match.OneOf(String, null),
+        username: String,
+        emails: [{ address: String, verified: Boolean }],
+        profile: {
+          profile: String,
+          name: String,
+          path: Match.OneOf(String, null)
+        }
+      });
+    } catch (exception) {
+      console.error("updatePersonalDataUser: ", exception);
+      throw new Meteor.Error("403", "Los datos son incorrectos");
+    }
+    // Validamos el correo y el username
+    UsersServices.validateEmail(user.emails[0].address, user._id);
+    UsersServices.validateUsername(user.username, user._id);
+  },
+  // Después realizamos el proceso de base de datos
+  // Desestructuramos user, ya que user = { _id, username, emails, profile }
+  run({ _id, username, emails, profile }) {
+    // console.log("Id del usuario logueado: ", this.userId);
+    const responseMessage = new ResponseMessage(); // Inicializamos la clase ReponseMessage
+
+    // Realizamos un try/catch para cachar los errores
+    try {
+      UsersServices.updateUser(_id, username, emails, profile);
+
+      // Creamos el mensaje al finalizar el proceso
+      responseMessage.create("Se ha actualizado la información correctamente");
+    } catch (exception) {
+      console.error("updatePersonalDataUser: ", exception);
+      throw new Meteor.Error(
+        "500",
+        "Ocurrió un error al actualizar la información"
+      );
+    }
     // Retornamos el mensaje por último
     return responseMessage;
   }
