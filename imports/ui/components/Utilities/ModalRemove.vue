@@ -8,7 +8,7 @@
       <v-card-text>
         ¿Estás seguro de eliminar {{ modalData.preposition }}
         {{ modalData.typeElement }}
-        {{ modalData.mainNameElement }} ?
+        {{ modalData.mainNameElement }}?
         <!-- Ejemplo: ¿Estás seguro de eliminar {{ al }} {{ usuario }} {{ Alex }}? -->
       </v-card-text>
 

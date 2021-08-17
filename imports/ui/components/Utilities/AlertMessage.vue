@@ -4,9 +4,9 @@
     :color="color"
     :multi-line="multiLine"
     timeout="6000"
+    elevation="18"
     absolute
     bottom
-    right
     text
   >
     <v-btn class="ma-2" v-if="icon" text icon :color="color">
