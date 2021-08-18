@@ -1,5 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import { Accounts } from "meteor/accounts-base";
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 // "MAIL_URL": "smtp://apps.frontendweb:petsounds1966@smtp.gmail.com:587",
 if (Meteor.isDevelopment) {
   if (Meteor.settings.private?.SENDER_EMAILS) {
@@ -35,12 +36,6 @@ emailTemplates.enrollAccount = {
     SSR.compileTemplate(
       "emailEnrollAccount",
       Assets.getText(emailEnrollAccount)
-    );
-    console.log(
-      SSR.compileTemplate(
-        "emailEnrollAccount",
-        Assets.getText(emailEnrollAccount)
-      )
     );
     return SSR.render("emailEnrollAccount", {
       urlWithoutHash,
