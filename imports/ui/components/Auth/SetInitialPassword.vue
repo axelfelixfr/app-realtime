@@ -48,8 +48,21 @@ export default {
   },
   methods: {
     setPassword() {
-      console.log(this.$route.params.token);
-      console.log(this.user);
+      const token = this.$route.params.token;
+      Accounts.resetPassword(token, this.user.password, error => {
+        if (error) {
+          this.$alert.showAlertSimple(
+            "error",
+            "Se produjo un error al establecer la contraseña"
+          );
+        } else {
+          this.$alert.showAlertSimple(
+            "success",
+            "Se estableció la contraseña correctamente"
+          );
+          this.$router.push({ name: "login" });
+        }
+      });
     }
   }
 };

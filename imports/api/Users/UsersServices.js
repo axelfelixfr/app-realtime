@@ -52,9 +52,10 @@ export default {
       email: emails[0].address,
       profile
     });
-    // Al crear el usuario, actualizamos sus roles de acuerdo a su perfil
     if (idUser) {
+      // Al crear el usuario, actualizamos sus roles de acuerdo a su perfil
       ProfilesServices.setUserRoles(idUser, profile.profile);
+      Accounts.sendEnrollmentEmail(idUser, emails[0].address);
     }
   },
   updateUser(_id, username, emails, profile) {

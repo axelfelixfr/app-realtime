@@ -1,4 +1,5 @@
 import "./helpers/Permissions";
+import "./services/MailServices";
 
 import "../../api/Users/User";
 import "../../api/Users/UsersController";
